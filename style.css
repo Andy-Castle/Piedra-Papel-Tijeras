@@ -54,3 +54,11 @@ button:hover {
   align-items: center;
   flex-direction: column;
 }
+
+.result > p {
+  margin: 15px;
+}
+p > #userSelections {
+  display: flex;
+  justify-content: center;
+}
