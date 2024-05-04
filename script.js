@@ -1,86 +1,96 @@
+//Primero debo dejar que el jugador elija 5 opciones
+//luego de que haya elegido las 5 opciones los botones se deshabitalaran
+//luego la computadora eligira 5 opciones y las pondra en el array
+//luego se realizara las peleas
+//y al final se mostrara el resultado
+
 let humanScore = 0;
 let ComputerScore = 0;
 let totalRound = 5;
 let arrayUserSelections = [];
 let arrayComputerChoice = [];
 
-const buttonChoices = document.querySelectorAll("button");
-
 const userSelections = document.querySelector("#userSelections");
 const results = document.querySelector("#results");
+
+const buttonChoice = document.querySelectorAll("button");
 
 function getComputerChoice() {
   let randomNumber = Math.floor(Math.random() * 3) + 1;
   if (randomNumber == 1) {
     arrayComputerChoice.push("rock");
-    return "rock";
   } else if (randomNumber == 2) {
     arrayComputerChoice.push("paper");
-    return "paper";
   } else {
     arrayComputerChoice.push("scissors");
-    return "scissors";
   }
 }
 
-function getUserChoice() {
-  buttonChoices.forEach((select) => {
-    select.addEventListener("click", () => {
-      if (select.id == "rock") {
-        arrayUserSelections.push("rock");
+function fiveComputerChoice() {
+  for (let i = 0; i < totalRound; i++) {
+    getComputerChoice();
+  }
+}
+
+function disabledButtons() {
+  buttonChoice.forEach((button) => {
+    button.setAttribute("disabled", true);
+    button.classList.remove("hover");
+  });
+}
+
+function getUserChoiceToStart() {
+  let selectionsMade = 0;
+  buttonChoice.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (
+        button.value === "rock" ||
+        button.value === "paper" ||
+        button.value === "scissors"
+      ) {
+        arrayUserSelections.push(button.value);
+        console.log(arrayUserSelections);
+        alert(`You select ${button.value}`);
+        selectionsMade++;
         userSelections.textContent = arrayUserSelections;
-        alert("Rock selected");
-        return "rock";
-      } else if (select.id == "paper") {
-        arrayUserSelections.push("paper");
-        userSelections.textContent = arrayUserSelections;
-        alert("Paper selected");
-        return "paper";
-      } else {
-        arrayUserSelections.push("scissors");
-        userSelections.textContent = arrayUserSelections;
-        alert("Scissors selected");
-        return "scissors";
+        if (selectionsMade === 5) {
+          disabledButtons();
+          fiveComputerChoice();
+          playRound();
+          totalScore();
+          setTimeout(() => {
+            restartGame();
+          }, 7000);
+        }
       }
     });
   });
 }
 
-function playRound(humanChoice, computerChoice) {
-  if (humanChoice === computerChoice) {
-    return "TIE";
-  } else if (humanChoice == "rock" && computerChoice == "paper") {
-    humanScore++;
-    return "You win";
-  } else if (humanChoice == "paper" && computerChoice == "rock") {
-    humanScore++;
-    return "You win";
-  } else if (humanChoice == "sycissors" && computerChoice == "paper") {
-    humanScore++;
-    return "You win";
-  } else {
-    ComputerScore + 1;
-    return "Computer win";
+function playRound() {
+  for (let i = 0; i < totalRound; i++) {
+    if (arrayUserSelections[i] === arrayComputerChoice[i]) {
+    } else if (
+      (arrayUserSelections[i] === "rock" &&
+        arrayComputerChoice[i] === "scissors") ||
+      (arrayUserSelections[i] === "paper" && arrayComputerChoice[i] === "rock") ||
+      (arrayUserSelections[i] === "scissors" && arrayComputerChoice[i] === "paper")
+    ) {
+      humanScore++;
+    } else {
+      ComputerScore++;
+    }
   }
-}
-
-function playGame() {
-  const humanSelection = getUserChoice();
-
-  const computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
 }
 
 function totalScore() {
   results.innerHTML = `<p>User Score: ${humanScore}</p>\n
-  <p>Computer Score: ${ComputerScore}</p>`;
+  <p>Computer Score: ${ComputerScore}</p>\n
+  <p>The game will restart in a few seconds...</p>`;
 }
 
-playGame();
-// for (let i = 1; i <= totalRound; i++) {
-//   playGame();
-// }
-
-if (totalRound == 5) {
-  totalScore();
+function restartGame() {
+  window.location.reload();
 }
+
+getUserChoiceToStart();
