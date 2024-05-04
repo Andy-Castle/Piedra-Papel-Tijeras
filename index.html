@@ -3,9 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Piedra , papel o tijeras</title>
+    <link
+      rel="shortcut icon"
+      href="/public/piedra-papel-tijeras.png"
+      type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <title>Rock, paper or scissors</title>
   </head>
   <body>
-    <script src="script.js"></script>
+    <h1>Rock, paper or scissors</h1>
+    <p>Select a plays</p>
+    <div class="select-plays">
+      <button id="rock" class="hover" value="rock">
+        <img src="/public/rock.png" alt="rock" />
+      </button>
+      <button id="paper" class="hover" value="paper">
+        <img src="/public/paper.png" alt="paper" />
+      </button>
+      <button id="scissors" class="hover" value="scissors">
+        <img src="/public/scissors.png" alt="scissors" />
+      </button>
+    </div>
+    <div class="result">
+      <p>Your selections: <span id="userSelections"></span></p>
+      <p>Results: <span id="results"></span></p>
+    </div>
   </body>
 </html>
